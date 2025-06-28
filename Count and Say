@@ -1,0 +1,59 @@
+/* Count and Say
+The count-and-say sequence is a sequence of digit strings defined by the recursive formula:
+countAndSay(1) = "1"
+countAndSay(n) is the run-length encoding of countAndSay(n - 1).
+Input: n = 4
+Output: "1211"
+*/
+
+package main
+import (
+	"fmt"
+)
+func intToString(n int) string {
+	if n == 0 {
+		return "0"
+	}
+	result := ""
+	for n > 0 {
+		digit := n % 10
+		result = string('0'+digit) + result
+		fmt.Println("print the result ", result)
+		n /= 10
+	}
+	return result
+}
+func countAndSay(n int) string {
+	current := "1"
+	fmt.Println("len of current is ", len(current)) //1
+	for i := 1; i < n; i++ {
+		next := ""
+		count := 1
+		fmt.Println("print the length of the len(current) before execute the j value ", len(current)) // 1
+		for j := 1; j < len(current); j++ {                                                           // j++ 2
+			fmt.Println("inside the j loop")
+			fmt.Println("print the value of j and j-1 ", string(current[j]), string(current[j-1]))
+			if current[j] == current[j-1] {
+				fmt.Println("inside the if statemenet")
+				count++
+			} else {
+				fmt.Println("excute the else block")
+				next += intToString(count) + string(current[j-1])
+				count = 1
+			}
+			fmt.Println("print the j value ", j)
+		}
+		// Append the last group
+		fmt.Println("len(current) ", len(current), "string value of current is ", string(current[len(current)-1]))
+		next += intToString(count) + string(current[len(current)-1])
+		current = next
+		fmt.Println("print the value of current ", current)
+		fmt.Println("print  the value of i is :", i)
+	}
+
+	return current
+}
+func main() {
+	n := 7
+	fmt.Printf("Count and Say for n = %d: %s\n", n, countAndSay(n))
+}
